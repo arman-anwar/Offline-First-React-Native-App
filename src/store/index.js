@@ -19,12 +19,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import user from './ducks/UserDuck';
 import postReducer from './reducers/PostsSlice';
 import rootSagas from './sagasRoot';
-import Reactotron from '../config/ReactotronConfig';
 import TYPES from './types';
 import createOfflineMiddleware from './offlineMiddleware';
 
-const sagaMonitor = Reactotron.createSagaMonitor();
-const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
+const sagaMiddleware = createSagaMiddleware();
 
 
 // console.log('postReducer>> ' , postReducer.reducer)
@@ -55,7 +53,6 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
   reducer: persistedReducer,
-  enhancers: [Reactotron.createEnhancer()],
   middleware: [
     handleOfflineActionsMiddleware,
     networkMiddleware,
