@@ -7,7 +7,7 @@ import { handleMetaNavigation } from '../services/utils';
 export const handleOfflineActionsMiddleware = (actionTypes) => (store) => (
   next,
 ) => async (action) => {
-  console.log('OFFLINE_ACTIONS >> ', action)
+  // console.log('OFFLINE_ACTIONS >> ', action)
   try {
     if (!actionTypes.includes(action.type)) {
       return next(action);
