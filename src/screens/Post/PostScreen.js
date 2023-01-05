@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import {useSelector, useDispatch} from 'react-redux';
-import {BasicContainer, InputText, Button, ErrorText} from '../../library';
+import { useSelector, useDispatch } from 'react-redux';
+import { BasicContainer, InputText, Button, ErrorText } from '../../library';
 import useForm from '../../hooks/useForm';
 import { normalizeFormData } from '../../services/utils';
 import { createPostRequest, updatePostRequest } from '../../store/reducers/PostsSlice';
@@ -10,7 +10,7 @@ const InputContainer = styled.View`
   width: 100%;
 `;
 
-const PostScreen = ({route}) => {
+const PostScreen = ({ route }) => {
   const postId = route.params?.id;
 
   const validateFields = ({ name, email, setInvalidFieldValue }) => {
@@ -30,16 +30,6 @@ const PostScreen = ({route}) => {
     { name: 'email', placeholder: 'Email', value: '' },
   ];
 
-  const goToPost = ({ navigation, id }) => () => {
-    navigation.navigate('Post', { id });
-  };
-
-  const findPosts = ({ dispatch }) => {
- 
-    dispatch(requestFindPosts());
-  };
-  
-  
   const createPost = ({
     form,
     dispatch,
@@ -50,9 +40,9 @@ const PostScreen = ({route}) => {
       dispatch(createPostRequest({ ...post }));
     }
   };
-  
-  
-  
+
+
+
   const updatePost = ({
     postId,
     form,
@@ -64,7 +54,7 @@ const PostScreen = ({route}) => {
       dispatch(updatePostRequest({ ...post, id: postId }));
     }
   };
-  
+
 
   const [invalidFieldValue, setInvalidFieldValue] = useState();
 
@@ -72,12 +62,12 @@ const PostScreen = ({route}) => {
   const post = useSelector((state) =>
     postId ? state.posts.data.find((item) => item.id === postId) : null,
   );
-  const {loading, error} = useSelector((state) => state.posts);
+  const { loading, error } = useSelector((state) => state.posts);
 
   const [form, formDispatch] = useForm(initialFormState);
   useEffect(() => {
     if (post) {
-      formDispatch({name: 'initialValues', value: post});
+      formDispatch({ name: 'initialValues', value: post });
     }
   }, [post, formDispatch]);
 
@@ -90,18 +80,18 @@ const PostScreen = ({route}) => {
             key={field.name}
             placeholder={field.placeholder}
             onChangeText={(text) =>
-              formDispatch({name: field.name, value: text})
+              formDispatch({ name: field.name, value: text })
             }
           />
         ))}
       </InputContainer>
       <Button
-        {...{loading}}
+        {...{ loading }}
         text="Save"
         onPress={
           postId
-            ? updatePost({postId, form, dispatch, setInvalidFieldValue})
-            : createPost({form,  dispatch, setInvalidFieldValue})
+            ? updatePost({ postId, form, dispatch, setInvalidFieldValue })
+            : createPost({ form, dispatch, setInvalidFieldValue })
         }
       />
       {invalidFieldValue && <ErrorText text={invalidFieldValue} />}
